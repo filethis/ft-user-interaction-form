@@ -1,6 +1,6 @@
 {
     "name": "ft-user-interaction-form",
-    "version": "1.0.0",
+    "version": "0.0.1",
     "description": "FileThis UserInteraction form",
     "main": "ft-user-interaction-form.html",
     "dependencies": {
