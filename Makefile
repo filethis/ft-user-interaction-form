@@ -10,14 +10,6 @@ PORT=3001
 
 # Boilerplate targets
 
-.PHONY: build
-build:
-	if [ "${TYPE}" = "element" ]; then \
-		echo Cannot build an element project; \
-		exit 1; \
-	fi; \
-	polymer build
-
 .PHONY: lint
 lint:
 	if [ "${TYPE}" = "element" ]; then \
@@ -26,33 +18,13 @@ lint:
 		polymer lint --root src/ --input ${NAME}/${NAME}.html; \
 	fi;
 
-.PHONY: push
-push:
-	git push origin
-
-.PHONY: pull
-pull:
-	git pull origin
-
-.PHONY: register
-register:
-	bower register ${NAME} git://github.com/filethis/${NAME}.git
-
-.PHONY: serve
-serve:
-	polymer serve --port ${PORT}
-
-.PHONY: open-app
-open-app:
-	open http://localhost:${PORT}
-
-.PHONY: open-demo
-open-demo:
-	open http://localhost:${PORT}/demo/
-
-.PHONY: open-docs
-open-docs:
-	open http://localhost:${PORT}/components/${NAME}
+.PHONY: build
+build:
+	if [ "${TYPE}" = "element" ]; then \
+		echo Cannot build an element project; \
+		exit 1; \
+	fi; \
+	polymer build
 
 .PHONY: test
 test:
@@ -70,6 +42,26 @@ test-firefox:
 test-safari:
 	polymer test -l safari
 
-.PHONY: test-interactive
-test-interactive:
-	open http://localhost:${PORT}/components/${NAME}/test/${NAME}_test.html
+.PHONY: serve
+serve:
+	polymer serve --port ${PORT}
+
+.PHONY: open
+open:
+	if [ "${TYPE}" = "element" ]; then \
+		open http://localhost:${PORT}/components/${NAME}/demo/; \
+	else \
+		open http://localhost:${PORT}; \
+	fi;
+
+.PHONY: open-docs
+open-docs:
+	if [ "${TYPE}" = "app" ]; then \
+		echo App projects do not have documentation pages; \
+		exit 1; \
+	fi; \
+	open http://localhost:${PORT}/components/${NAME}/
+
+.PHONY: register
+register:
+	bower register ${NAME} git://github.com/filethis/${NAME}.git
