@@ -17,21 +17,29 @@ This element defines a number of form examples
 
     <template>
 
-        <div class="layout horizontal"
+        <div class="layout horizontal start center-justified"
              style="width:100%;
                     padding-left:16px; padding-right:16px;">
 
             <!-- Credentials -->
-            <div style="background:white; border:1px solid #DDD;">
-                <ft-user-interaction-form request="[[_credentialsRequest]]"></ft-user-interaction-form>
+            <div style="background:white; padding:16px; border:1px solid #DDD;">
+                <ft-user-interaction-form id="credentialsForm"></ft-user-interaction-form>
             </div>
 
             <!-- Spacer -->
             <div style="width:30px;"></div>
 
             <!-- Multiple Choice -->
-            <div style="background:white; border:1px solid #DDD;">
-                <ft-user-interaction-form request="[[_multipleChoiceRequest]]"></ft-user-interaction-form>
+            <div style="background:white; padding:16px; border:1px solid #DDD;">
+                <ft-user-interaction-form id="multipleChoiceForm"></ft-user-interaction-form>
+            </div>
+
+            <!-- Spacer -->
+            <div style="width:30px;"></div>
+
+            <!-- U.S. State -->
+            <div style="background:white; padding:16px; border:1px solid #DDD;">
+                <ft-user-interaction-form id="_usStateForm"></ft-user-interaction-form>
             </div>
 
         </div>
@@ -44,115 +52,31 @@ This element defines a number of form examples
         ({
             is: 'demo-fixture',
 
-            properties:
-            {
-                _credentialsRequest:
-                {
-                    type: Object,  // JSON
-                    notify: true,
-                    value: null
-                },
-                _multipleChoiceRequest:
-                {
-                    type: Object,  // JSON
-                    notify: true,
-                    value: null
-                }
-            },
-
-            _credentialsRequestJson: {
-                    "version": "2.0.0",
-                    "id": "10F9A46DB2E5",
-                    "title": "Credentials",
-                    "code": "credentials",
-                    "parts": [
-                        {
-                            "id": "BE6371FC40A9",
-                            "kind": "static-text",
-                            "text": "Please enter your credentials"
-                        },
-                        {
-                            "id": "username",
-                            "kind": "text-input",
-                            "label": "Username:"
-                        },
-                        {
-                            "id": "password",
-                            "kind": "text-input",
-                            "label": "Password:",
-                            "sensitive": true
-                        }
-                    ]
-                },
-
-            _multipleChoiceRequestJson: {
-                "version": "2.0.0",
-                "id": "D3E51F7C809B",
-                "title": "Secret Questions",
-                "code": "general",
-                "parts": [
-                    {
-                        "id": "DE28F4A97C36",
-                        "kind": "choices",
-                        "suggestedWidgetType": "radiobutton",
-                        "label": "Which of the following is a city in which have lived during the past 10 years?",
-                        "choices": [
-                            {
-                                "label": "Minneapolis",
-                                "id": "B1950AD267E8"
-                            },
-                            {
-                                "label": "New York",
-                                "id": "7F5634DC1A2E"
-                            },
-                            {
-                                "label": "Los Angeles",
-                                "id": "81A5B249736D"
-                            },
-                            {
-                                "label": "Denver",
-                                "id": "D32967EFB518"
-                            }
-                        ]
-                    },
-                    {
-                        "id": "2713846EF5C9",
-                        "kind": "choices",
-                        "suggestedWidgetType": "radiobutton",
-                        "label": "Which of the following was your mortgage payment last month?",
-                        "choices": [
-                            {
-                                "label": "$598",
-                                "id": "B2D764F89A05"
-                            },
-                            {
-                                "label": "$1,250",
-                                "id": "CBA632F7458D"
-                            },
-                            {
-                                "label": "$2,400",
-                                "id": "A63E8B951F7D"
-                            },
-                            {
-                                "label": "$2,800",
-                                "id": "941F2EB0D653"
-                            },
-                            {
-                                "label": "$3,200",
-                                "id": "61D798CAB04E"
-                            }
-                        ]
-                    }
-                ]
-            },
-
             ready: function()
             {
-                var foo = "bar";
-                this._credentialsRequest = this._credentialsRequestJson;
-                this._multipleChoiceRequest = this._multipleChoiceRequestJson;
+                this._loadRequestIntoForm("request-credentials.json", this.$.credentialsForm);
+                this._loadRequestIntoForm("request-multiple-choice.json", this.$.multipleChoiceForm);
+                this._loadRequestIntoForm("request-us-state.json", this.$._usStateForm);
+            },
+
+            _loadRequestIntoForm: function(file, form)
+            {
+                var xmlHttpRequest = new XMLHttpRequest();
+                xmlHttpRequest.overrideMimeType("application/json");
+                xmlHttpRequest.open('GET', file, true);
+                xmlHttpRequest.onreadystatechange = function()
+                {
+                    if (xmlHttpRequest.readyState == 4 &&
+                        xmlHttpRequest.status == "200")
+                    {
+                        var json = JSON.parse(xmlHttpRequest.responseText);
+                        form.request = json;
+                    }
+                };
+                xmlHttpRequest.send();
             }
         });
+
     </script>
 
 </dom-module>
