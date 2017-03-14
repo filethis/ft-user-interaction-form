@@ -10,7 +10,7 @@
 
     <link rel="import" href="../../iron-demo-helpers/demo-pages-shared-styles.html">
     <link rel="import" href="../../iron-demo-helpers/demo-snippet.html">
-    <link rel="import" href="../ft-user-interaction-form.html">
+    <link rel="import" href="demo-fixture.html">
 
     <style is="custom-style" include="demo-pages-shared-styles">
     </style>
@@ -18,49 +18,12 @@
 
 <body>
 <div class="vertical-section-container centered">
-    <h3>Basic ft-user-interaction-form demo</h3>
     <demo-snippet>
         <template>
-            <ft-user-interaction-form id="form"></ft-user-interaction-form>
+            <demo-fixture></demo-fixture>
         </template>
     </demo-snippet>
 </div>
 </body>
-
-<script>
-    window.onload=function()
-    {
-        var form = document.querySelector('#form');
-        var requestAsString = '{\
-                    "version": "2.0.0",\
-                    "id": "10F9A46DB2E5",\
-                    "title": "Credentials",\
-                    "code": "credentials",\
-                    "parts": [\
-                        {\
-                            "id": "BE6371FC40A9",\
-                            "kind": "static-text",\
-                            "text": "Please enter your credentials"\
-                        },\
-                        {\
-                            "id": "username",\
-                            "kind": "text-input",\
-                            "label": "Username:"\
-                        },\
-                        {\
-                            "id": "password",\
-                            "kind": "text-input",\
-                            "label": "Password:",\
-                            "sensitive": true\
-                        }\
-                    ]\
-                }\
-            ';
-        var requestAsJson = JSON.parse(requestAsString);
-        form.request = requestAsJson;
-    }
-
-</script>
-
 
 </html>

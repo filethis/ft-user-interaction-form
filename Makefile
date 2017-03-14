@@ -6,7 +6,7 @@
 NAME=ft-user-interaction-form
 VERSION=0.0.1
 TYPE=element
-PORT=3001
+PORT=3006
 
 
 # Boilerplate targets
