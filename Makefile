@@ -4,7 +4,7 @@
 # Project configuration
 
 NAME=ft-user-interaction-form
-VERSION=0.0.1
+VERSION=0.0.2
 TYPE=element
 PORT=3006
 
@@ -16,7 +16,7 @@ lint:
 	if [ "${TYPE}" = "element" ]; then \
 		polymer lint --input ${NAME}.html; \
 	else \
-		polymer lint --root src/ --input ${NAME}/${NAME}.html; \
+		polymer lint --root src/ --input ${NAME}.html; \
 	fi;
 
 .PHONY: build
@@ -59,7 +59,7 @@ browser-sync:
 		browser-sync start \
 			--proxy "http://localhost:${PORT}" \
 			--port ${PORT} \
-			--files "*.html, *.css, src/${NAME}/*.html, src/${NAME}/*.css, test/*.html"; \
+			--files "*.html, *.css, src/*.html, src/*.css, test/*.html"; \
 	fi;
 
 .PHONY: open
@@ -86,21 +86,16 @@ tag-version:
 push-tags:
 	git push --tags
 
-.PHONY: register
-register:
-	bower register ${NAME} git://github.com/filethis/${NAME}.git
-
 .PHONY: docs-github
 docs-github:
 	if [ "${TYPE}" = "app" ]; then \
 		echo App projects do not have documentation pages; \
 		exit 1; \
 	fi; \
-	mkdir tmp; \
-	cd ./tmp; \
-	gp.sh filethis git://github.com/filethis/${NAME}.git; \
-	rm -r ./tmp; \
-	open https://filethis.github.io/${NAME}/components/${NAME}/;
+	mkdir -p tmp && \
+	cd ./tmp && \
+	gp.sh filethis ${NAME} && \
+	rm -r ./tmp
 
 .PHONY: open-docs-github
 open-docs-github:
@@ -109,3 +104,11 @@ open-docs-github:
 		exit 1; \
 	fi; \
 	open https://filethis.github.io/${NAME}/components/${NAME}/;
+
+.PHONY: register
+register:
+	bower register ${NAME} git://github.com/filethis/${NAME}.git
+
+.PHONY: release
+release: tag-version push-tags docs-github open-docs-github
+	echo Released version {VERSION};

@@ -22,7 +22,7 @@ This element defines a number of form examples
                     padding-left:16px; padding-right:16px;">
 
             <!-- Credentials -->
-            <div style="background:white; padding:16px; border:1px solid #DDD;">
+            <div style="background:white; border:1px solid #DDD;">
                 <ft-user-interaction-form id="credentialsForm"></ft-user-interaction-form>
             </div>
 
@@ -30,7 +30,7 @@ This element defines a number of form examples
             <div style="width:30px;"></div>
 
             <!-- Multiple Choice -->
-            <div style="background:white; padding:16px; border:1px solid #DDD;">
+            <div style="background:white; border:1px solid #DDD;">
                 <ft-user-interaction-form id="multipleChoiceForm"></ft-user-interaction-form>
             </div>
 
@@ -38,7 +38,7 @@ This element defines a number of form examples
             <div style="width:30px;"></div>
 
             <!-- U.S. State -->
-            <div style="background:white; padding:16px; border:1px solid #DDD;">
+            <div style="background:white; border:1px solid #DDD;">
                 <ft-user-interaction-form id="_usStateForm"></ft-user-interaction-form>
             </div>
 
@@ -52,18 +52,46 @@ This element defines a number of form examples
         ({
             is: 'demo-fixture',
 
-            ready: function()
+            properties:
             {
-                this._loadRequestIntoForm("request-credentials.json", this.$.credentialsForm);
-                this._loadRequestIntoForm("request-multiple-choice.json", this.$.multipleChoiceForm);
-                this._loadRequestIntoForm("request-us-state.json", this.$._usStateForm);
+                version:
+                {
+                    type: String,  // JSON
+                    notify: true,
+                    value: "2.0.0",
+                    observer: "_onVersionChanged"
+                }
             },
 
-            _loadRequestIntoForm: function(file, form)
+            _onVersionChanged: function()
             {
+                switch (this.version)
+                {
+                    case "1.0.0":
+                        this._loadRequestIntoForm("credentials", this.$.credentialsForm);
+                        this._loadRequestIntoForm("general-choices", this.$.multipleChoiceForm);
+                        this._loadRequestIntoForm("us-state", this.$._usStateForm);
+                        break;
+
+                    case "2.0.0":
+                        // TODO
+                        this._loadRequestIntoForm("credentials", this.$.credentialsForm);
+                        this._loadRequestIntoForm("general-choices", this.$.multipleChoiceForm);
+                        this._loadRequestIntoForm("us-state", this.$._usStateForm);
+                        break;
+
+                    default:
+                        throw new IllegalArgumentException("Unknown user interaction schema version: " + this.version);
+                }
+            },
+
+            _loadRequestIntoForm: function(name, form)
+            {
+                var path = "data/user-interaction-request-" + name + "-example-" + this.version + ".json";
+
                 var xmlHttpRequest = new XMLHttpRequest();
                 xmlHttpRequest.overrideMimeType("application/json");
-                xmlHttpRequest.open('GET', file, true);
+                xmlHttpRequest.open('GET', path, true);
                 xmlHttpRequest.onreadystatechange = function()
                 {
                     if (xmlHttpRequest.readyState == 4 &&
@@ -74,6 +102,11 @@ This element defines a number of form examples
                     }
                 };
                 xmlHttpRequest.send();
+            },
+
+            _getMajorVersion: function()
+            {
+                return this.version.charAt(0);
             }
         });
 

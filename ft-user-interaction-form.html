@@ -38,37 +38,37 @@ You can get intermediate responses by calling the generateResponse() method.
     </template>
 
 
-    <!-- Request Parser -->
+    <!-- Request Parser 1.0.0 -->
     <script>
-        function InteractionRequestParser()
+        function InteractionRequestParser_1_0_0()
         {
             this.generator = null;
         }
 
         // Main entry point
-        InteractionRequestParser.prototype.parse = function(interaction, generator)
+        InteractionRequestParser_1_0_0.prototype.parse = function(request, generator)
         {
             this.generator = generator;
 
             this.generator.begin();
 
-            this.parseTitle(interaction);
+            this.parseTitle(request);
 
-            var partCount = interaction.parts.length;
+            var partCount = request["2.0.0"].parts.length;
             for (var partIndex = 0; partIndex < partCount; partIndex++)
             {
-                var part = interaction.parts[partIndex];
+                var part = request["2.0.0"].parts[partIndex];
 
                 switch (part.kind)
                 {
                     case "static-text":
-                        this.parseStaticText(interaction, part);
+                        this.parseStaticText(request, part);
                         break;
                     case "text-input":
-                        this.parseTextInput(interaction, part);
+                        this.parseTextInput(request, part);
                         break;
                     case "choices":
-                        this.parseChoices(interaction, part);
+                        this.parseChoices(request, part);
                         break;
                 }
             }
@@ -76,13 +76,13 @@ You can get intermediate responses by calling the generateResponse() method.
             this.generator.end();
         };
 
-        InteractionRequestParser.prototype.parseTitle = function(interaction)
+        InteractionRequestParser_1_0_0.prototype.parseTitle = function(request)
         {
-            var title = interaction.title;
+            var title = request["2.0.0"].title;
             this.generator.generateTitle(title);
         };
 
-        InteractionRequestParser.prototype.parseStaticText = function(interaction, part)
+        InteractionRequestParser_1_0_0.prototype.parseStaticText = function(request, part)
         {
             var id = part.id;
             var text = part.text;
@@ -90,7 +90,7 @@ You can get intermediate responses by calling the generateResponse() method.
             this.generator.generateStaticText(id, text);
         };
 
-        InteractionRequestParser.prototype.parseTextInput = function(interaction, part)
+        InteractionRequestParser_1_0_0.prototype.parseTextInput = function(request, part)
         {
             var id = part.id;
             var label = part.label;
@@ -99,7 +99,7 @@ You can get intermediate responses by calling the generateResponse() method.
             this.generator.generateTextInput(id, label, sensitive);
         };
 
-        InteractionRequestParser.prototype.parseChoices = function(interaction, part)
+        InteractionRequestParser_1_0_0.prototype.parseChoices = function(request, part)
         {
             var id = part.id;
             var label = part.label;
@@ -127,9 +127,9 @@ You can get intermediate responses by calling the generateResponse() method.
     </script>
 
 
-    <!-- Form Generator -->
+    <!-- Form Generator 1.0.0 -->
     <script>
-        function InteractionFormGenerator(polymer, view, widgetMap, maxWidth)
+        function InteractionFormGenerator_1_0_0(polymer, view, widgetMap, maxWidth)
         {
             this.polymer = polymer;
             this.rootView = view;
@@ -139,12 +139,12 @@ You can get intermediate responses by calling the generateResponse() method.
             this.commitButton = null;
         }
 
-        InteractionFormGenerator.prototype.getResponse = function()
+        InteractionFormGenerator_1_0_0.prototype.getResponse = function()
         {
             return this.response;
         };
 
-        InteractionFormGenerator.prototype.clear = function()
+        InteractionFormGenerator_1_0_0.prototype.clear = function()
         {
             // Clean up from the last time we used the root view
             this.rootView.removeEventListener('keyup', this.onKeyUp.bind(this));
@@ -180,7 +180,7 @@ You can get intermediate responses by calling the generateResponse() method.
             }
         };
 
-        InteractionFormGenerator.prototype.begin = function()
+        InteractionFormGenerator_1_0_0.prototype.begin = function()
         {
             this.clear();
 
@@ -192,9 +192,10 @@ You can get intermediate responses by calling the generateResponse() method.
             this.rootView.addEventListener('change', this.onChange.bind(this));
 
             this.rootView.style.minWidth = "300px";
+            this.rootView.style.padding = "16px";
         };
 
-        InteractionFormGenerator.prototype.end = function()
+        InteractionFormGenerator_1_0_0.prototype.end = function()
         {
             // Horizontal container for cancel and commit buttons
             var div = document.createElement('div');
@@ -244,20 +245,21 @@ You can get intermediate responses by calling the generateResponse() method.
             this.validate();
         };
 
-        InteractionFormGenerator.prototype.generateId = function(id)
+        InteractionFormGenerator_1_0_0.prototype.generateId = function(id)
         {
             // Ignore. No need to display this.
         };
 
-        InteractionFormGenerator.prototype.generateTitle = function(title)
+        InteractionFormGenerator_1_0_0.prototype.generateTitle = function(title)
         {
             var element = document.createElement('div');
             Polymer.dom(this.rootView).appendChild(element);
             element.innerHTML = title;
             element.style.paddingBottom = "10px";
+            element.style.fontSize = "20pt;";
         };
 
-        InteractionFormGenerator.prototype.generateStaticText = function(id, text)
+        InteractionFormGenerator_1_0_0.prototype.generateStaticText = function(id, text)
         {
             var element = document.createElement('div');
             Polymer.dom(this.rootView).appendChild(element);
@@ -269,7 +271,7 @@ You can get intermediate responses by calling the generateResponse() method.
             this.widgetMap[id] = element;
         };
 
-        InteractionFormGenerator.prototype.generateTextInput = function(id, label, sensitive)
+        InteractionFormGenerator_1_0_0.prototype.generateTextInput = function(id, label, sensitive)
         {
             var element = document.createElement('paper-input');
             Polymer.dom(this.rootView).appendChild(element);
@@ -287,7 +289,7 @@ You can get intermediate responses by calling the generateResponse() method.
             this.widgetMap[id] = element;
         };
 
-        InteractionFormGenerator.prototype.generateChoices = function(id, label, choices, defaultChoiceId, suggestedWidgetType)
+        InteractionFormGenerator_1_0_0.prototype.generateChoices = function(id, label, choices, defaultChoiceId, suggestedWidgetType)
         {
             // Vertical container
             var container = document.createElement('div');
@@ -315,7 +317,7 @@ You can get intermediate responses by calling the generateResponse() method.
             }
         };
 
-        InteractionFormGenerator.prototype.generateRadiobuttonChoices = function(id, label, choices, defaultChoiceId, container)
+        InteractionFormGenerator_1_0_0.prototype.generateRadiobuttonChoices = function(id, label, choices, defaultChoiceId, container)
         {
             // Group label
             var groupLabel = document.createElement('div');
@@ -354,7 +356,7 @@ You can get intermediate responses by calling the generateResponse() method.
             }
         };
 
-        InteractionFormGenerator.prototype.generateMenuChoices = function(id, label, choices, defaultChoiceId, container)
+        InteractionFormGenerator_1_0_0.prototype.generateMenuChoices = function(id, label, choices, defaultChoiceId, container)
         {
             // Dropdown menu
             var dropdownMenu = document.createElement('select');
@@ -383,27 +385,27 @@ You can get intermediate responses by calling the generateResponse() method.
             }
         };
 
-        InteractionFormGenerator.prototype.onButtonClicked = function(event, cancels)
+        InteractionFormGenerator_1_0_0.prototype.onButtonClicked = function(event, cancels)
         {
             this.fire(this.rootView, 'button-clicked');
         };
 
-        InteractionFormGenerator.prototype.onKeyUp = function(event)
+        InteractionFormGenerator_1_0_0.prototype.onKeyUp = function(event)
         {
             this.onUserInput();
         };
 
-        InteractionFormGenerator.prototype.onPaperRadioGroupChanged = function(event)
+        InteractionFormGenerator_1_0_0.prototype.onPaperRadioGroupChanged = function(event)
         {
             this.onUserInput();
         };
 
-        InteractionFormGenerator.prototype.onChange = function(event)
+        InteractionFormGenerator_1_0_0.prototype.onChange = function(event)
         {
             this.onUserInput();
         };
 
-        InteractionFormGenerator.prototype.onUserInput = function()
+        InteractionFormGenerator_1_0_0.prototype.onUserInput = function()
         {
             // Suppress when we are compiling
             if (this.generating)
@@ -414,7 +416,7 @@ You can get intermediate responses by calling the generateResponse() method.
             this.fire(this.rootView, 'entered-data-changed');
         };
 
-        InteractionFormGenerator.prototype.validate = function()
+        InteractionFormGenerator_1_0_0.prototype.validate = function()
         {
             if (this.commitButton == null)
                 return;
@@ -431,7 +433,7 @@ You can get intermediate responses by calling the generateResponse() method.
             this.commitButton.disabled = !enabled;
         };
 
-        InteractionFormGenerator.prototype.allTextInputsValid = function()
+        InteractionFormGenerator_1_0_0.prototype.allTextInputsValid = function()
         {
             // For each text input in the form
             var elements = Polymer.dom(this.rootView).querySelectorAll("paper-input");
@@ -445,7 +447,7 @@ You can get intermediate responses by calling the generateResponse() method.
             return true;
         };
 
-        InteractionFormGenerator.prototype.allRadiobuttonGroupsValid = function()
+        InteractionFormGenerator_1_0_0.prototype.allRadiobuttonGroupsValid = function()
         {
             // For each radiobutton group in the form
             var radioButtonGroups = Polymer.dom(this.rootView).querySelectorAll("#choice-group");
@@ -473,7 +475,7 @@ You can get intermediate responses by calling the generateResponse() method.
             return true;
         };
 
-        InteractionFormGenerator.prototype.allMenusValid = function()
+        InteractionFormGenerator_1_0_0.prototype.allMenusValid = function()
         {
             // For each menu in the form
             var menus = Polymer.dom(this.rootView).querySelectorAll("select");
@@ -487,7 +489,7 @@ You can get intermediate responses by calling the generateResponse() method.
             return true;
         };
 
-        InteractionFormGenerator.prototype.fire = function(element, eventName)
+        InteractionFormGenerator_1_0_0.prototype.fire = function(element, eventName)
         {
             var event;
 
@@ -511,9 +513,9 @@ You can get intermediate responses by calling the generateResponse() method.
         };    </script>
 
 
-    <!-- Response Generator -->
+    <!-- Response Generator 1.0.0 -->
     <script>
-        function InteractionResponseGenerator(widgetMap)
+        function InteractionResponseGenerator_1_0_0(widgetMap)
         {
             this.widgetMap = widgetMap;
 
@@ -522,17 +524,17 @@ You can get intermediate responses by calling the generateResponse() method.
             this.response = null;
         }
 
-        InteractionResponseGenerator.prototype.getResponse = function()
+        InteractionResponseGenerator_1_0_0.prototype.getResponse = function()
         {
             return this.response;
         };
 
-        InteractionResponseGenerator.prototype.begin = function()
+        InteractionResponseGenerator_1_0_0.prototype.begin = function()
         {
             this.responseParts = [];
         };
 
-        InteractionResponseGenerator.prototype.end = function()
+        InteractionResponseGenerator_1_0_0.prototype.end = function()
         {
             this.response =
             {
@@ -542,22 +544,22 @@ You can get intermediate responses by calling the generateResponse() method.
             };
         };
 
-        InteractionResponseGenerator.prototype.generateId = function(id)
+        InteractionResponseGenerator_1_0_0.prototype.generateId = function(id)
         {
             this.requestId = id;
         };
 
-        InteractionResponseGenerator.prototype.generateTitle = function(title)
+        InteractionResponseGenerator_1_0_0.prototype.generateTitle = function(title)
         {
             // Nothing to do
         };
 
-        InteractionResponseGenerator.prototype.generateStaticText = function(id, text)
+        InteractionResponseGenerator_1_0_0.prototype.generateStaticText = function(id, text)
         {
             // Nothing to do
         };
 
-        InteractionResponseGenerator.prototype.generateTextInput = function(id, label, sensitive)
+        InteractionResponseGenerator_1_0_0.prototype.generateTextInput = function(id, label, sensitive)
         {
             var field = this.widgetMap[id];
             var value = field.value;
@@ -565,7 +567,7 @@ You can get intermediate responses by calling the generateResponse() method.
             this.responseParts.push({id:id, value:value});
         };
 
-        InteractionResponseGenerator.prototype.generateChoices = function(id, label, choices, defaultChoiceId, suggestedWidgetType)
+        InteractionResponseGenerator_1_0_0.prototype.generateChoices = function(id, label, choices, defaultChoiceId, suggestedWidgetType)
         {
             var group = this.widgetMap[id];
 
@@ -587,7 +589,7 @@ You can get intermediate responses by calling the generateResponse() method.
         };
 
         // Private
-        InteractionResponseGenerator.prototype.generateRadiobuttonChoices = function(id, label, choices)
+        InteractionResponseGenerator_1_0_0.prototype.generateRadiobuttonChoices = function(id, label, choices)
         {
             var group = this.widgetMap[id];
 
@@ -607,7 +609,7 @@ You can get intermediate responses by calling the generateResponse() method.
         };
 
         // Private
-        InteractionResponseGenerator.prototype.generateMenuChoices = function(id, label, choices)
+        InteractionResponseGenerator_1_0_0.prototype.generateMenuChoices = function(id, label, choices)
         {
             var menu = this.widgetMap[id];
             var choiceId = menu.value;
@@ -648,6 +650,15 @@ You can get intermediate responses by calling the generateResponse() method.
 
             properties:
             {
+                /** Version of user interaction schema to use. */
+                version:
+                {
+                    type: String,  // JSON
+                    notify: true,
+                    value: "2.0.0",
+                    observer: "_onVersionChanged"
+                },
+
                 /** User interaction request as JSON, to be rendered as a form. */
                 request:
                 {
@@ -672,11 +683,26 @@ You can get intermediate responses by calling the generateResponse() method.
             _responseGenerator: null,
             _widgetMap: {},
 
-            ready: function()
+            _onVersionChanged: function()
             {
-                this._requestParser = new InteractionRequestParser();
-                this._formGenerator = new InteractionFormGenerator(this, this.$.form, this._widgetMap, "325px");
-                this._responseGenerator = new InteractionResponseGenerator(this._widgetMap);
+                switch (this.version)
+                {
+                    case "1.0.0":
+                        this._requestParser = new InteractionRequestParser_1_0_0();
+                        this._formGenerator = new InteractionFormGenerator_1_0_0(this, this.$.form, this._widgetMap, "325px");
+                        this._responseGenerator = new InteractionResponseGenerator_1_0_0(this._widgetMap);
+                        break;
+
+                    case "2.0.0":
+                        // TODO
+                        this._requestParser = new InteractionRequestParser_1_0_0();
+                        this._formGenerator = new InteractionFormGenerator_1_0_0(this, this.$.form, this._widgetMap, "325px");
+                        this._responseGenerator = new InteractionResponseGenerator_1_0_0(this._widgetMap);
+                        break;
+
+                    default:
+                        throw new IllegalArgumentException("Unknown user interaction schema version: " + this.version);
+                }
             },
 
             _onRequestChanged: function()

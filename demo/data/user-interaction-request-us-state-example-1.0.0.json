@@ -1,8 +1,9 @@
 {
-    "version": "2.0.0",
+    "version": "1.0.0",
     "id": "CB9AE7842FD0",
     "title": "U.S. State",
     "code": "us-state",
+    "legacyCode": "two_letter_state",
     "parts": [
         {
             "id": "2836FB74D0C9",
