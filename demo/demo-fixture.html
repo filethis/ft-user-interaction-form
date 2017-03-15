@@ -2,6 +2,13 @@
 
 <!-- Imports -->
 <link rel="import" href="../../polymer/polymer.html">
+
+<link rel="import" href="../../paper-button/paper-button.html">
+<link rel="import" href="../../paper-dropdown-menu/paper-dropdown-menu.html">
+<link rel="import" href="../../paper-menu-button/paper-menu-button.html">
+<link rel="import" href="../../paper-item/paper-item.html">
+<link rel="import" href="../../iron-icon/iron-icon.html">
+
 <link rel="import" href="../ft-user-interaction-form.html">
 
 
@@ -17,31 +24,56 @@ This element defines a number of form examples
 
     <template>
 
-        <div class="layout horizontal start center-justified"
-             style="width:100%;
-                    padding-left:16px; padding-right:16px;">
+        <div class="vertical layout center"
+             style="padding-left:16px; padding-right:16px;">
 
-            <!-- Credentials -->
-            <div style="background:white; border:1px solid #DDD;">
-                <ft-user-interaction-form id="credentialsForm"></ft-user-interaction-form>
+            <div class="horizontal layout start center"
+                 style="padding-left:16px; padding-right:16px;">
+
+                <iron-label style="font-size:18px;">
+                    Examples of FileThis user interaction requests rendered by the ft-user-interaction-form element
+                </iron-label>
+
+                <!-- Spacer -->
+                <div style="width:30px;"></div>
+
+                <!-- Versions -->
+                <paper-dropdown-menu label="Version" style="width:75px;">
+                    <paper-listbox class="dropdown-content" selected="{{_selectedVersionIndex}}">
+                        <template is="dom-repeat" items="[[versions]]" as="version">
+                            <paper-item>[[version]]</paper-item>
+                        </template>
+                    </paper-listbox>
+                </paper-dropdown-menu>
             </div>
 
             <!-- Spacer -->
-            <div style="width:30px;"></div>
+            <div style="height:30px;"></div>
 
-            <!-- Multiple Choice -->
-            <div style="background:white; border:1px solid #DDD;">
-                <ft-user-interaction-form id="multipleChoiceForm"></ft-user-interaction-form>
+            <div class="horizontal layout start center-justified"
+                 style="padding-left:16px; padding-right:16px;">
+
+                <!-- Credentials -->
+                <div style="background:white; border:1px solid #DDD;">
+                    <ft-user-interaction-form id="credentialsForm"></ft-user-interaction-form>
+                </div>
+
+                <!-- Spacer -->
+                <div style="width:30px;"></div>
+
+                <!-- General Choices -->
+                <div style="background:white; border:1px solid #DDD;">
+                    <ft-user-interaction-form id="generalChoicesForm"></ft-user-interaction-form>
+                </div>
+
+                <!-- Spacer -->
+                <div style="width:30px;"></div>
+
+                <!-- U.S. State -->
+                <div style="background:white; border:1px solid #DDD;">
+                    <ft-user-interaction-form id="usStateForm"></ft-user-interaction-form>
+                </div>
             </div>
-
-            <!-- Spacer -->
-            <div style="width:30px;"></div>
-
-            <!-- U.S. State -->
-            <div style="background:white; border:1px solid #DDD;">
-                <ft-user-interaction-form id="_usStateForm"></ft-user-interaction-form>
-            </div>
-
         </div>
 
     </template>
@@ -54,40 +86,80 @@ This element defines a number of form examples
 
             properties:
             {
-                version:
+                versions:
                 {
-                    type: String,  // JSON
+                    type: Array,
+                    notify: true,
+                    value: [
+                        '1.0.0',
+                        '2.0.0'
+                    ]
+                },
+
+                selectedVersion:
+                {
+                    type: String,
                     notify: true,
                     value: "2.0.0",
-                    observer: "_onVersionChanged"
+                    observer: "_onSelectedVersionChanged"
+                },
+
+                _selectedVersionIndex:
+                {
+                    type: Number,
+                    notify: true,
+                    value: "1",
+                    observer: "_onSelectedVersionIndexChanged"
                 }
             },
 
-            _onVersionChanged: function()
+            _onSelectedVersionChanged: function()
             {
-                switch (this.version)
+                // Update the popup selection
+                this._selectedVersionIndex = this._mapVersionToIndex(this.selectedVersion);
+                
+                // Update version used by forms
+                this.$.credentialsForm.version = this.selectedVersion;
+                this.$.generalChoicesForm.version = this.selectedVersion;
+                this.$.usStateForm.version = this.selectedVersion;
+                
+                // Update request examples used by forms
+                this._loadRequestExampleIntoForm("credentials", this.$.credentialsForm);
+                this._loadRequestExampleIntoForm("general-choices", this.$.generalChoicesForm);
+                this._loadRequestExampleIntoForm("us-state", this.$.usStateForm);
+            },
+            
+            _mapVersionToIndex: function(version)
+            {
+                switch (version)
                 {
                     case "1.0.0":
-                        this._loadRequestIntoForm("credentials", this.$.credentialsForm);
-                        this._loadRequestIntoForm("general-choices", this.$.multipleChoiceForm);
-                        this._loadRequestIntoForm("us-state", this.$._usStateForm);
-                        break;
-
+                        return 0;
                     case "2.0.0":
-                        // TODO
-                        this._loadRequestIntoForm("credentials", this.$.credentialsForm);
-                        this._loadRequestIntoForm("general-choices", this.$.multipleChoiceForm);
-                        this._loadRequestIntoForm("us-state", this.$._usStateForm);
-                        break;
-
+                        return 1;
                     default:
-                        throw new IllegalArgumentException("Unknown user interaction schema version: " + this.version);
+                        throw new IllegalArgumentException("Unknown user interaction schema version: " + version);
                 }
             },
 
-            _loadRequestIntoForm: function(name, form)
+            _onSelectedVersionIndexChanged: function()
             {
-                var path = "data/user-interaction-request-" + name + "-example-" + this.version + ".json";
+                switch (this._selectedVersionIndex)
+                {
+                    case 0:
+                        this.selectedVersion = "1.0.0";
+                        break;
+                    case 1:
+                        this.selectedVersion = "2.0.0";
+                        break;
+                    default:
+                        throw new IllegalArgumentException("Invalid version index: " + _selectedVersionIndex.toString());
+                }
+            },
+
+            _loadRequestExampleIntoForm: function(name, form)
+            {
+                var path = "data/user-interaction-request-" + name + "-example-" + this.selectedVersion + ".json";
 
                 var xmlHttpRequest = new XMLHttpRequest();
                 xmlHttpRequest.overrideMimeType("application/json");
@@ -97,17 +169,12 @@ This element defines a number of form examples
                     if (xmlHttpRequest.readyState == 4 &&
                         xmlHttpRequest.status == "200")
                     {
-                        var json = JSON.parse(xmlHttpRequest.responseText);
-                        form.request = json;
+                        form.request = JSON.parse(xmlHttpRequest.responseText);
                     }
                 };
                 xmlHttpRequest.send();
-            },
-
-            _getMajorVersion: function()
-            {
-                return this.version.charAt(0);
             }
+
         });
 
     </script>
