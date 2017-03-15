@@ -138,7 +138,7 @@ This element defines a number of form examples
                     case "2.0.0":
                         return 1;
                     default:
-                        throw new IllegalArgumentException("Unknown user interaction schema version: " + version);
+                        throw new Error("Unknown user interaction schema version: " + version);
                 }
             },
 
@@ -153,7 +153,7 @@ This element defines a number of form examples
                         this.selectedVersion = "2.0.0";
                         break;
                     default:
-                        throw new IllegalArgumentException("Invalid version index: " + _selectedVersionIndex.toString());
+                        throw new Error("Invalid version index: " + this._selectedVersionIndex.toString());
                 }
             },
 
