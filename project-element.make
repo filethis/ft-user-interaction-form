@@ -12,7 +12,7 @@ lint:  ## Lint project files
 # Running -----------------------------------------------------------------------------------
 
 .PHONY: run-browser-sync
-run-browser-sync:  ## Run BrowserSync against local files. Element demo requires a running Polymer server. See: https://www.browsersync.io/
+run-browser-sync:  ## Run BrowserSync against local files. Element demos require a running Polymer server. See: https://www.browsersync.io/
 	@if lsof -i tcp:${PORT} > /dev/null; then \
 		echo Polymer server is running; \
 	else \
@@ -29,11 +29,11 @@ run-browser-sync:  ## Run BrowserSync against local files. Element demo requires
 # Viewing -----------------------------------------------------------------------------------
 
 .PHONY: open-url
-open-url:  ## Open URL of element demo
+open-url:  ## Open URL of local element demo
 	@open http://localhost:${PORT}/components/${NAME}/demo/;
 
 .PHONY: print-url
-print-url:  ## Print URL of element demo
+print-url:  ## Print URL of local element demo
 	@echo http://localhost:${PORT}/components/${NAME}/demo/;
 
 .PHONY: open-url-published
