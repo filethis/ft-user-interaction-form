@@ -125,7 +125,10 @@ This element defines a number of form examples
                 
                 // Update request examples used by forms
                 this._loadRequestExampleIntoForm("credentials", this.$.credentialsForm);
-                this._loadRequestExampleIntoForm("general-choices", this.$.generalChoicesForm);
+                if (this.selectedVersion == "1.0.0")
+                    this._loadRequestExampleIntoForm("generic-choices", this.$.generalChoicesForm);
+                else
+                    this._loadRequestExampleIntoForm("general-choices", this.$.generalChoicesForm);
                 this._loadRequestExampleIntoForm("us-state", this.$.usStateForm);
             },
             
