@@ -416,6 +416,7 @@ You can get intermediate responses by calling the generateResponse() method.
             button.raised = true;
             Polymer.dom(button).innerHTML = label;
 
+            // TODO: Something needs to remove this event listener when we are done with the form...
             button.addEventListener('click', this.onButtonClicked.bind(this, id, action, submit));
 
             if (submit)
@@ -446,7 +447,18 @@ You can get intermediate responses by calling the generateResponse() method.
             if (submit)
                 this.widgetMap["_submitButtonClickedId"] = id;  // Not a widget, but we need a place to hang this information
 
-            this.fire(this.rootView, 'button-clicked', { id:id, action:action, submit:submit });
+            var event = new CustomEvent('button-clicked',
+                {
+                    bubbles: true,
+                    composed: true,
+                    detail:
+                        {
+                            id:id,
+                            action:action,
+                            submit:submit
+                        }
+                });
+            this.rootView.dispatchEvent(event);
         };
 
         InteractionFormGenerator_2_0_0.prototype.onKeyUp = function(event)
@@ -472,7 +484,8 @@ You can get intermediate responses by calling the generateResponse() method.
 
             this.validate();
 
-            this.fire(this.rootView, 'entered-data-changed');
+            var event = new CustomEvent('entered-data-changed');
+            this.rootView.dispatchEvent(event);
         };
 
         InteractionFormGenerator_2_0_0.prototype.validate = function()
@@ -551,32 +564,6 @@ You can get intermediate responses by calling the generateResponse() method.
                     return false;
             }
             return true;
-        };
-
-        InteractionFormGenerator_2_0_0.prototype.fire = function(element, eventName, detail)
-        {
-            var event;
-
-            if (document.createEvent)
-            {
-                event = document.createEvent("HTMLEvents");
-                event.initEvent(eventName, true, true);
-            }
-            else
-            {
-                event = document.createEventObject();
-                event.eventType = eventName;
-            }
-
-            event.eventName = eventName;
-
-            if (detail != null)
-                event.detail = detail;
-
-            if (document.createEvent)
-                element.dispatchEvent(event);
-            else
-                element.fireEvent("on" + event.eventType, event);
         };
 
     </script>
@@ -826,10 +813,10 @@ You can get intermediate responses by calling the generateResponse() method.
             this.rootView.removeEventListener('paper-radio-group-changed', this.onPaperRadioGroupChanged.bind(this));
             this.rootView.removeEventListener('change', this.onChange.bind(this));
 
-            if (this.cancelButton)
+            if (this.deferButton)
             {
-                // this.cancelButton.removeEventListener('click', this.onCancelButtonClicked.bind(this));
-                this.cancelButton = null;
+                // this.deferButton.removeEventListener('click', this.onDeferButtonClicked.bind(this));
+                this.deferButton = null;
             }
 
             if (this.submitButton)
@@ -872,30 +859,32 @@ You can get intermediate responses by calling the generateResponse() method.
 
         InteractionFormGenerator_1_0_0.prototype.end = function()
         {
-            // Horizontal container for cancel and submit buttons
+            // Horizontal container for defer and submit buttons
             var div = document.createElement('div');
             Polymer.dom(this.rootView).appendChild(div);
-            this.polymer.toggleClass("layout", true, div);
-            this.polymer.toggleClass("horizontal", true, div);
+            div.classList.add("horizontal");
+            div.classList.add("end-justified");
+            div.classList.add("layout");
             div.style.width = "100%";
             div.style.paddingTop = "20px";
 
             // Spacer to push button to right
-            var springSpacer = document.createElement('div');
-            Polymer.dom(div).appendChild(springSpacer);
-            springSpacer.style.width = "100%";
+//            var springSpacer = document.createElement('div');
+//            Polymer.dom(div).appendChild(springSpacer);
+//            springSpacer.style.width = "100%";
 
-            // Cancel button
-            var cancelButton = document.createElement('paper-button');
-            var submitFalse = true;
-            cancelButton.addEventListener('click', this.onButtonClicked.bind(this, "_cancelButton", "cancel", submitFalse));
-            Polymer.dom(div).appendChild(cancelButton);
-            cancelButton.raised = true;
-            cancelButton.style.width = "60px";
-            cancelButton.style.height = "36px";
-            cancelButton.style.background = "white";
-            Polymer.dom(cancelButton).textContent = 'Cancel';
-            this.cancelButton = cancelButton;
+            // TODO: Something needs to remove the button event listeners when we are done with the form...
+
+            // Defer button
+            var deferButton = document.createElement('paper-button');
+            var submitFalse = false;
+            deferButton.addEventListener('click', this.onButtonClicked.bind(this, "_deferButton", "defer", submitFalse));
+            Polymer.dom(div).appendChild(deferButton);
+            deferButton.raised = true;
+            deferButton.style.height = "36px";
+            deferButton.style.background = "white";
+            Polymer.dom(deferButton).textContent = 'Answer Later';
+            this.deferButton = deferButton;
 
             // Spacer between buttons
             var spacer = document.createElement('div');
@@ -1064,7 +1053,18 @@ You can get intermediate responses by calling the generateResponse() method.
 
         InteractionFormGenerator_1_0_0.prototype.onButtonClicked = function(id, action, submit)
         {
-            this.fire(this.rootView, 'button-clicked', { id:id, action:action, submit:submit });
+            var event = new CustomEvent('button-clicked',
+                {
+                    bubbles: true,
+                    composed: true,
+                    detail:
+                        {
+                            id:id,
+                            action:action,
+                            submit:submit
+                        }
+                });
+            this.rootView.dispatchEvent(event);
         };
 
         InteractionFormGenerator_1_0_0.prototype.onKeyUp = function(event)
@@ -1090,7 +1090,8 @@ You can get intermediate responses by calling the generateResponse() method.
 
             this.validate();
 
-            this.fire(this.rootView, 'entered-data-changed');
+            var event = new CustomEvent('entered-data-changed');
+            this.rootView.dispatchEvent(event);
         };
 
         InteractionFormGenerator_1_0_0.prototype.validate = function()
@@ -1166,31 +1167,7 @@ You can get intermediate responses by calling the generateResponse() method.
             return true;
         };
 
-        InteractionFormGenerator_1_0_0.prototype.fire = function(element, eventName, detail)
-        {
-            var event;
-
-            if (document.createEvent)
-            {
-                event = document.createEvent("HTMLEvents");
-                event.initEvent(eventName, true, true);
-            }
-            else
-            {
-                event = document.createEventObject();
-                event.eventType = eventName;
-            }
-
-            event.eventName = eventName;
-
-            if (detail != null)
-                event.detail = detail;
-
-            if (document.createEvent)
-                element.dispatchEvent(event);
-            else
-                element.fireEvent("on" + event.eventType, event);
-        };    </script>
+     </script>
 
 
     <!-- Response Generator 1.0.0 -->
@@ -1453,11 +1430,12 @@ You can get intermediate responses by calling the generateResponse() method.
 
             _onButtonClicked: function(event)
             {
-                // If a submit button was clicked, generate the response
+                // If a submit button was clicked, generate the response, and fire a specific event
                 if (event.detail.submit)
+                {
                     this.generateResponse();
-
-                this.fire('submit-response', this.response);
+                    this.fire('submit-response', this.response);
+                }
             }
 
         });
