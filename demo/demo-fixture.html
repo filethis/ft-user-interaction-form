@@ -44,7 +44,7 @@ This element defines a number of form examples
         <div class="vertical layout center"
              style="padding-left:16px; padding-right:16px;">
 
-            <div class="horizontal layout start center"
+            <div class="layout horizontal start center"
                  style="padding-left:16px; padding-right:16px;">
 
                 <iron-label style="font-family:Arial;padding-top:17px">
@@ -67,7 +67,7 @@ This element defines a number of form examples
             <!-- Spacer -->
             <div style="height:30px;"></div>
 
-            <div class="horizontal layout start center-justified"
+            <div class="layout horizontal start center-justified"
                  style="padding-left:16px; padding-right:16px;">
 
                 <!-- Credentials -->
@@ -142,7 +142,7 @@ This element defines a number of form examples
                 
                 // Update request examples used by forms
                 this._loadRequestExampleIntoForm("credentials", this.$.credentialsForm);
-                if (this.selectedVersion == "1.0.0")
+                if (this.selectedVersion === "1.0.0")
                     this._loadRequestExampleIntoForm("generic-choices", this.$.generalChoicesForm);
                 else
                     this._loadRequestExampleIntoForm("general-choices", this.$.generalChoicesForm);
@@ -186,8 +186,8 @@ This element defines a number of form examples
                 xmlHttpRequest.open('GET', path, true);
                 xmlHttpRequest.onreadystatechange = function()
                 {
-                    if (xmlHttpRequest.readyState == 4 &&
-                        xmlHttpRequest.status == "200")
+                    if (xmlHttpRequest.readyState === 4 &&
+                        xmlHttpRequest.status === 200)
                     {
                         form.request = JSON.parse(xmlHttpRequest.responseText);
                     }
