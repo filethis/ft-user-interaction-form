@@ -156,7 +156,7 @@ You can get intermediate responses by calling the generateResponse() method.
                 this._clearResponse();
             },
 
-            _onVersionChanged: function()
+            _onVersionChanged: function(to, from)
             {
                 this._clear();
 
@@ -179,7 +179,7 @@ You can get intermediate responses by calling the generateResponse() method.
                 }
             },
 
-            _onRequestChanged: function()
+            _onRequestChanged: function(to, from)
             {
                 this._clear();
                 this._generateForm();
@@ -187,7 +187,7 @@ You can get intermediate responses by calling the generateResponse() method.
                 this.fire('request-changed', this.request);
             },
 
-            _onResponseChanged: function()
+            _onResponseChanged: function(to, from)
             {
                 this.fire('response-changed', this.response);
             },
