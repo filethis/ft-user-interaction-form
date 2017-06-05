@@ -1,6 +1,6 @@
 # Project configuration
 NAME=ft-user-interaction-form
-VERSION=0.0.10
+VERSION=0.0.11
 LOCAL_PORT=3006
 GITHUB_USER=filethis
 BOWER_NAMESPACE=FileThis
