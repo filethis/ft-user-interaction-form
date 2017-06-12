@@ -345,7 +345,10 @@ InteractionFormGenerator_1_0_0.prototype.allTextInputsValid = function()
     for (var index = 0; index < count; index++)
     {
         var element = elements[index];
-        if (element.value.length == 0)
+        var value = element.value;
+        if (value === undefined)
+            return false;
+        if (value.length === 0)
             return false;
     }
     return true;
@@ -387,7 +390,8 @@ InteractionFormGenerator_1_0_0.prototype.allMenusValid = function()
     for (var index = 0; index < count; index++)
     {
         var menu = menus[index];
-        if (menu.value == null)
+        var value = menu.value;
+        if (!value)
             return false;
     }
     return true;

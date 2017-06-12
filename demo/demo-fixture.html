@@ -19,6 +19,7 @@ limitations under the License.
 
 <!-- Imports -->
 <link rel="import" href="../../polymer/polymer.html">
+<link rel="import" href="../../iron-flex-layout/iron-flex-layout-classes.html">
 
 <link rel="import" href="../../paper-button/paper-button.html">
 <link rel="import" href="../../paper-dropdown-menu/paper-dropdown-menu.html">
@@ -37,7 +38,7 @@ This element defines a number of form examples
  -->
 <dom-module id="demo-fixture">
 
-    <style include="iron-flex iron-flex-alignment"></style>
+    <style include="iron-flex iron-flex-alignment iron-positioning"></style>
 
     <template>
 
@@ -56,7 +57,10 @@ This element defines a number of form examples
 
                 <!-- Versions -->
                 <paper-dropdown-menu label="Version" style="width:75px;">
-                    <paper-listbox class="dropdown-content" selected="{{_selectedVersionIndex}}">
+                    <paper-listbox
+                            class="dropdown-content"
+                            slot="dropdown-content"
+                            selected="{{_selectedVersionIndex}}">
                         <template is="dom-repeat" items="[[versions]]" as="version">
                             <paper-item>[[version]]</paper-item>
                         </template>
