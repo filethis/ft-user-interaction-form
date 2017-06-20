@@ -21,7 +21,5 @@
     "web-component-tester": "^4.0.0",
     "webcomponentsjs": "webcomponents/webcomponentsjs#^1.0.0"
   },
-  "ignore": [],
-  "resolutions": {
-  }
+  "ignore": []
 }
