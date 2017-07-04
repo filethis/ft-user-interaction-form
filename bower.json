@@ -21,5 +21,8 @@
     "web-component-tester": "^4.0.0",
     "webcomponentsjs": "webcomponents/webcomponentsjs#^1.0.0"
   },
-  "ignore": []
+  "resolutions": {
+    "polymer": "^2.0.1",
+    "webcomponentsjs": "^v1.0.0"
+  }
 }
