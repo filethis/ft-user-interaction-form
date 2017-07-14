@@ -1,8 +1,6 @@
-[_Demo and API docs_](https://filethis.github.io/ft-user-interaction-form/components/ft-user-interaction-form/)
+[Demo](https://filethis.github.io/ft-user-interaction-form/components/ft-user-interaction-form/demo/)    [API](https://filethis.github.io/ft-user-interaction-form/components/ft-user-interaction-form/)    [Repo](https://github.com/filethis/ft-user-interaction-form)
 
 ### \<ft-user-interaction-form\>
-
------------------------------------------------------------
 
 The `ft-user-interaction-form` renders FileThis user interaction requests as a GUI dialog.
 
