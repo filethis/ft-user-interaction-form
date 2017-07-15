@@ -2,7 +2,7 @@
 
 ### \<ft-user-interaction-form\>
 
-The `ft-user-interaction-form` renders FileThis user interaction requests as a GUI dialog.
+This element renders FileThis user interaction requests as a GUI dialog. 
 
 Given the user interaction request as JSON, this element will dynamically render the dialog widgets it contains. These may include a dialog title, static text items, radiobuttons, text entry fields, and links.
 
