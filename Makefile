@@ -1,6 +1,6 @@
 # Project configuration
 NAME=ft-user-interaction-form
-VERSION=0.0.26
+VERSION=0.0.27
 LOCAL_PORT=3006
 GITHUB_USER=filethis
 GITHUB_USER_ABBREV=ft
