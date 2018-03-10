@@ -63,6 +63,11 @@ InteractionRequestParser_1_0_0.prototype.parseId = function(request)
 InteractionRequestParser_1_0_0.prototype.parseTitle = function(request)
 {
     var title = request.title;
+
+    // Title is optional, according to the schema
+    if (!title)
+        return;
+
     this.generator.generateTitle(title);
 };
 
