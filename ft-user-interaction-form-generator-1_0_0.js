@@ -79,7 +79,7 @@ InteractionFormGenerator_1_0_0.prototype.begin = function()
     this.rootView.addEventListener('paper-radio-group-changed', this.onPaperRadioGroupChanged.bind(this));
     this.rootView.addEventListener('change', this.onChange.bind(this));
 
-    this.rootView.style.minWidth = "300px";
+    this.rootView.style.minWidth = "500px";
     this.rootView.style.padding = "16px";
 };
 
