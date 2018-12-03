@@ -3,7 +3,7 @@
   "description": "FileThis UserInteraction form",
   "main": "ft-user-interaction-form.html",
   "dependencies": {
-    "ft-element-demo": "filethis/ft-element-demo#^1.0.14",
+    "ft-element-demo": "filethis/ft-element-demo#^1.0.15",
     "iron-label": "PolymerElements/iron-label#2.1.0",
     "paper-button": "PolymerElements/paper-button#2.1.3",
     "paper-checkbox": "PolymerElements/paper-checkbox#2.0.4",
