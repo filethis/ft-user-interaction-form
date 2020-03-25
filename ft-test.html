@@ -1,4 +1,4 @@
-<link rel="import" href="../polymer/polymer.html">
+<script type="module" src="../@polymer/polymer/polymer-legacy.js"></script>
 
 
 <dom-module id="ft-test">
@@ -15,16 +15,18 @@
 
     </template>
 
-    <script>
-        Polymer
-        ({
-            is: 'ft-test',
+    <script type="module">
+import '@polymer/polymer/polymer-legacy.js';
+import { Polymer } from '@polymer/polymer/lib/legacy/polymer-fn.js';
+Polymer
+({
+    is: 'ft-test',
 
-            properties:
-            {
-            }
+    properties:
+    {
+    }
 
-        });
-    </script>
+});
+</script>
 
 </dom-module>
