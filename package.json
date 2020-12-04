@@ -1,7 +1,7 @@
 {
   "description": "FileThis UserInteraction form",
-  "name": "filethis/ft-user-interaction-form",
-  "version": "filethis/1.0.33",
+  "name": "ft-user-interaction-form",
+  "version": "1.0.33",
   "resolutions": {
     "inherits": "2.0.3",
     "samsam": "1.1.3",
