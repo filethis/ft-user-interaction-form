@@ -26,7 +26,6 @@ This element defines a number of form examples
   from HTML and may be out of place here. Review them and
   then delete this comment!
 */
-import 'ft-element-demo/ft-element-demo.js';
 
 import '@polymer/iron-flex-layout/iron-flex-layout-classes.js';
 import '@polymer/iron-icon/iron-icon.js';
