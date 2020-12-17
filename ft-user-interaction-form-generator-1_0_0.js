@@ -14,10 +14,12 @@ See the License for the specific language governing permissions and
 limitations under the License.
 */
 
+import { dom, flush } from '@polymer/polymer/lib/legacy/polymer.dom.js'
+
 
 // InteractionFormGenerator_1_0_0
 
-function InteractionFormGenerator_1_0_0(polymer, view, widgetMap, maxWidth)
+export function InteractionFormGenerator_1_0_0(polymer, view, widgetMap, maxWidth)
 {
     this.polymer = polymer;
     this.rootView = view;
@@ -52,13 +54,13 @@ InteractionFormGenerator_1_0_0.prototype.clear = function()
     }
 
     // Remove all children of the root view
-    for (var child = Polymer.dom(this.rootView).lastChild;
+    for (var child = dom(this.rootView).lastChild;
          child != null;
-         child = Polymer.dom(this.rootView).lastChild)
+         child = dom(this.rootView).lastChild)
     {
-        Polymer.dom(this.rootView).removeChild(child);
+        dom(this.rootView).removeChild(child);
     }
-    Polymer.dom.flush();
+    flush();
 
     // Clear the widget map
     for (var property in this.widgetMap)
@@ -87,7 +89,7 @@ InteractionFormGenerator_1_0_0.prototype.end = function()
 {
     // Horizontal container for defer and submit buttons
     var div = document.createElement('div');
-    Polymer.dom(this.rootView).appendChild(div);
+    dom(this.rootView).appendChild(div);
     div.classList.add("horizontal");
     div.classList.add("end-justified");
     div.classList.add("layout");
@@ -96,7 +98,7 @@ InteractionFormGenerator_1_0_0.prototype.end = function()
 
     // Spacer to push button to right
 //            var springSpacer = document.createElement('div');
-//            Polymer.dom(div).appendChild(springSpacer);
+//            dom(div).appendChild(springSpacer);
 //            springSpacer.style.width = "100%";
 
     // TODO: Something needs to remove the button event listeners when we are done with the form...
@@ -105,32 +107,32 @@ InteractionFormGenerator_1_0_0.prototype.end = function()
     var deferButton = document.createElement('paper-button');
     var submitFalse = false;
     deferButton.addEventListener('click', this.onButtonClicked.bind(this, "_deferButton", "defer", submitFalse));
-    Polymer.dom(div).appendChild(deferButton);
+    dom(div).appendChild(deferButton);
     deferButton.raised = true;
     deferButton.style.height = "36px";
     deferButton.style.background = "white";
-    Polymer.dom(deferButton).textContent = 'Answer Later';
+    dom(deferButton).textContent = 'Answer Later';
     this.deferButton = deferButton;
 
     // Spacer between buttons
     var spacer = document.createElement('div');
-    Polymer.dom(div).appendChild(spacer);
+    dom(div).appendChild(spacer);
     spacer.style.width = "20px";
 
     // Submit button
     var submitButton = document.createElement('paper-button');
     var submitTrue = true;
     submitButton.addEventListener('click', this.onButtonClicked.bind(this, "_submitButton", "submit", submitTrue));
-    Polymer.dom(div).appendChild(submitButton);
+    dom(div).appendChild(submitButton);
     submitButton.raised = true;
     submitButton.style.width = "60px";
     submitButton.style.height = "36px";
     submitButton.style.background = "white";
-    Polymer.dom(submitButton).textContent = 'OK';
+    dom(submitButton).textContent = 'OK';
     this.submitButton = submitButton;
 
     // Flush all changes
-    Polymer.dom.flush();
+    flush();
 
     this.generating = false;
 
@@ -145,7 +147,7 @@ InteractionFormGenerator_1_0_0.prototype.generateId = function(id)
 InteractionFormGenerator_1_0_0.prototype.generateTitle = function(title)
 {
     var element = document.createElement('div');
-    Polymer.dom(this.rootView).appendChild(element);
+    dom(this.rootView).appendChild(element);
     element.innerHTML = title;
     element.style.paddingBottom = "10px";
     element.style.fontSize = "20pt;";
@@ -154,7 +156,7 @@ InteractionFormGenerator_1_0_0.prototype.generateTitle = function(title)
 InteractionFormGenerator_1_0_0.prototype.generateStaticText = function(id, text)
 {
     var element = document.createElement('div');
-    Polymer.dom(this.rootView).appendChild(element);
+    dom(this.rootView).appendChild(element);
 
     element.innerHTML = text;
     element.style.maxWidth = this.maxWidth;
@@ -166,7 +168,7 @@ InteractionFormGenerator_1_0_0.prototype.generateStaticText = function(id, text)
 InteractionFormGenerator_1_0_0.prototype.generateTextInput = function(id, label, sensitive)
 {
     var element = document.createElement('paper-input');
-    Polymer.dom(this.rootView).appendChild(element);
+    dom(this.rootView).appendChild(element);
 
     element.label = label;
     element.style.paddingTop = "12px";
@@ -185,7 +187,7 @@ InteractionFormGenerator_1_0_0.prototype.generateChoices = function(id, label, c
 {
     // Vertical container
     var container = document.createElement('div');
-    Polymer.dom(this.rootView).appendChild(container);
+    dom(this.rootView).appendChild(container);
     this.polymer.toggleClass("layout", true, container);
     this.polymer.toggleClass("vertical", true, container);
     container.style.width = "100%";
@@ -213,7 +215,7 @@ InteractionFormGenerator_1_0_0.prototype._generateRadiobuttonChoices = function(
 {
     // Group label
     var groupLabel = document.createElement('div');
-    Polymer.dom(container).appendChild(groupLabel);
+    dom(container).appendChild(groupLabel);
     groupLabel.innerHTML = label;
     groupLabel.style.maxWidth = this.maxWidth;
     groupLabel.style.marginBottom = "12px";
@@ -222,7 +224,7 @@ InteractionFormGenerator_1_0_0.prototype._generateRadiobuttonChoices = function(
     // Group
     var group = document.createElement('paper-radio-group');
     group.id = "choice-group";
-    Polymer.dom(container).appendChild(group);
+    dom(container).appendChild(group);
     group.style.maxWidth = this.maxWidth;
     this.widgetMap[id] = group;
 
@@ -234,10 +236,10 @@ InteractionFormGenerator_1_0_0.prototype._generateRadiobuttonChoices = function(
 
         // Radiobutton
         var radiobutton = document.createElement('paper-radio-button');
-        Polymer.dom(group).appendChild(radiobutton);
+        dom(group).appendChild(radiobutton);
         radiobutton.id = choice.id;
         radiobutton.name = choice.id;
-        Polymer.dom(radiobutton).textContent = choice.label;
+        dom(radiobutton).textContent = choice.label;
         radiobutton.style.paddingLeft = "20px";
 
         // If a default choice was specified and this is it, select this radiobutton
@@ -252,7 +254,7 @@ InteractionFormGenerator_1_0_0.prototype._generateMenuChoices = function(id, lab
 {
     // Dropdown menu
     var dropdownMenu = document.createElement('select');
-    Polymer.dom(container).appendChild(dropdownMenu);
+    dom(container).appendChild(dropdownMenu);
     dropdownMenu.style.maxWidth = this.maxWidth;
     dropdownMenu.style.paddingTop = "12px";
     dropdownMenu.label = label;
@@ -265,7 +267,7 @@ InteractionFormGenerator_1_0_0.prototype._generateMenuChoices = function(id, lab
         var choice = choices[choicesIndex];
 
         var item = document.createElement('option');
-        Polymer.dom(dropdownMenu).appendChild(item);
+        dom(dropdownMenu).appendChild(item);
         item.value = choice.id;
         item.text = choice.label;
 
@@ -340,7 +342,7 @@ InteractionFormGenerator_1_0_0.prototype.validate = function()
 InteractionFormGenerator_1_0_0.prototype.allTextInputsValid = function()
 {
     // For each text input in the form
-    var elements = Polymer.dom(this.rootView).querySelectorAll("paper-input");
+    var elements = dom(this.rootView).querySelectorAll("paper-input");
     var count = elements.length;
     for (var index = 0; index < count; index++)
     {
@@ -357,7 +359,7 @@ InteractionFormGenerator_1_0_0.prototype.allTextInputsValid = function()
 InteractionFormGenerator_1_0_0.prototype.allRadiobuttonGroupsValid = function()
 {
     // For each radiobutton group in the form
-    var radioButtonGroups = Polymer.dom(this.rootView).querySelectorAll("#choice-group");
+    var radioButtonGroups = dom(this.rootView).querySelectorAll("#choice-group");
     var groupCount = radioButtonGroups.length;
     for (var groupIndex = 0; groupIndex < groupCount; groupIndex++)
     {
@@ -365,7 +367,7 @@ InteractionFormGenerator_1_0_0.prototype.allRadiobuttonGroupsValid = function()
 
         // Is one of the radiobuttons in this group selected?
         var someRadiobuttonIsSelected = false;
-        var radiobuttons = Polymer.dom(radioButtonGroup).querySelectorAll("paper-radio-button");
+        var radiobuttons = dom(radioButtonGroup).querySelectorAll("paper-radio-button");
         var radiobuttonCount = radiobuttons.length;
         for (var radiobuttonIndex = 0; radiobuttonIndex < radiobuttonCount; radiobuttonIndex++)
         {
@@ -385,7 +387,7 @@ InteractionFormGenerator_1_0_0.prototype.allRadiobuttonGroupsValid = function()
 InteractionFormGenerator_1_0_0.prototype.allMenusValid = function()
 {
     // For each menu in the form
-    var menus = Polymer.dom(this.rootView).querySelectorAll("select");
+    var menus = dom(this.rootView).querySelectorAll("select");
     var count = menus.length;
     for (var index = 0; index < count; index++)
     {

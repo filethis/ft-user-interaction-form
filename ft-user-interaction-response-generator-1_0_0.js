@@ -17,7 +17,7 @@ limitations under the License.
 
 // InteractionResponseGenerator_1_0_0
 
-function InteractionResponseGenerator_1_0_0(widgetMap)
+export function InteractionResponseGenerator_1_0_0(widgetMap)
 {
     this.widgetMap = widgetMap;
 

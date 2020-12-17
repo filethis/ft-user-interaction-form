@@ -17,7 +17,7 @@ limitations under the License.
 
 // InteractionRequestParser_2_0_0
 
-function InteractionRequestParser_2_0_0()
+export function InteractionRequestParser_2_0_0()
 {
     this.generator = null;
 }

@@ -27,13 +27,12 @@ You can get intermediate responses by calling the generateResponse() method.
   from HTML and may be out of place here. Review them and
   then delete this comment!
 */
-import './ft-user-interaction-form-generator-1_0_0.js';
-
-import './ft-user-interaction-form-generator-2_0_0.js';
-import './ft-user-interaction-request-parser-1_0_0.js';
-import './ft-user-interaction-request-parser-2_0_0.js';
-import './ft-user-interaction-response-generator-1_0_0.js';
-import './ft-user-interaction-response-generator-2_0_0.js';
+import { InteractionFormGenerator_1_0_0 } from './ft-user-interaction-form-generator-1_0_0.js';
+import { InteractionFormGenerator_2_0_0 } from './ft-user-interaction-form-generator-2_0_0.js';
+import { InteractionRequestParser_1_0_0 } from './ft-user-interaction-request-parser-1_0_0.js';
+import { InteractionRequestParser_2_0_0 } from './ft-user-interaction-request-parser-2_0_0.js';
+import { InteractionResponseGenerator_1_0_0 } from './ft-user-interaction-response-generator-1_0_0.js';
+import { InteractionResponseGenerator_2_0_0 } from './ft-user-interaction-response-generator-2_0_0.js';
 import '@polymer/iron-flex-layout/iron-flex-layout-classes.js';
 import '@polymer/iron-label/iron-label.js';
 import '@polymer/paper-button/paper-button.js';
