@@ -1,6 +1,6 @@
 {
   "description": "FileThis UserInteraction form",
-  "name": "ft-user-interaction-form",
+  "name": "@filethis/ft-user-interaction-form",
   "version": "1.0.33",
   "resolutions": {
     "inherits": "2.0.3",
@@ -15,7 +15,6 @@
     "*.make",
     "*.png",
     "*.svg",
-    ".yalc/",
     "data/",
     "demo/",
     "test/",
